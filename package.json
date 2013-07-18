@@ -1,0 +1,33 @@
+{
+  "name": "node-rijndael",
+  "description": "A native binding to mcrypt's rijndael encryption.",
+  "version": "0.0.1",
+  "author": "Eli Skeggs <skeggse@gmail.com>",
+  "main": "./index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/skeggse/node-rijndael.git"
+  },
+  "bugs": "https://github.com/skeggse/node-rijndael/issues",
+  "keywords": [
+    "rijndael",
+    "aes",
+    "mcrypt",
+    "crypto",
+    "cryptography"
+  ],
+  "devDependencies": {
+    "mocha": "~1.12.0",
+    "expect.js": "~0.2.0",
+    "sinon": "~1.7.3"
+  },
+  "licenses": [
+    {
+      "type": "unlicense",
+      "url": "https://github.com/skeggse/nicely/blob/master/UNLICENSE"
+    }
+  ],
+  "engines": {
+    "node": ">=0.3.0"
+  }
+}
