@@ -12,6 +12,8 @@ You _will_ need a development version of libmcrypt installed on your system to b
 $ npm install node-rijndael
 ```
 
+<small>If you know how to package an external library with a Node Addon, consider submitting a [pull request][pr].</small>
+
 API
 ===
 
@@ -57,5 +59,6 @@ License
 
 > For more information, please refer to <[http://unlicense.org/](http://unlicense.org/)>
 
-[encrypt]: https://github.com/skeggse/node-rijndael#
-[decrypt]: https://github.com/skeggse/node-rijndael#
+[pr]: https://github.com/skeggse/node-rijndael/pulls
+[encrypt]: https://github.com/skeggse/node-rijndael#rijndaelencryptplaintext-key
+[decrypt]: https://github.com/skeggse/node-rijndael#rijndaeldecryptciphertext-key
