@@ -56,16 +56,16 @@ Handle<Value> Rijndael(const Arguments& args) {
     return scope.Close(Undefined());
   }
 
-  data_size = (((text_len - 1) / 32) + 1) * 32;
-  data = malloc(data_size);
-  memset(data, 0, data_size);
-  memcpy(data, text, text_len);
-
   err = mcrypt_generic_init(rijndael_module, (void*) key, key_len, NULL);
   if (err < 0) {
     ThrowException(Exception::Error(String::New(mcrypt_strerror(err))));
     return scope.Close(Undefined());
   }
+
+  data_size = (((text_len - 1) / 32) + 1) * 32;
+  data = malloc(data_size);
+  memset(data, 0, data_size);
+  memcpy(data, text, text_len);
 
   if (encrypt)
     mcrypt_generic(rijndael_module, data, data_size);
