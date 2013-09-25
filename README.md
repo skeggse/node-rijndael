@@ -65,8 +65,8 @@ rijndael.decrypt(ciphertext, key)
 
 Encrypt the provided `ciphertext` with the provided `key`, and return the encrypted `plaintext`. All variables involved must be instances of `Buffer`.
 
-License
-=======
+Unlicense / Public Domain
+=========================
 
 > This is free and unencumbered software released into the public domain.
 
