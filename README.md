@@ -38,32 +38,36 @@ API
 
 For simplicity's sake, `node-rijndael` only operates on Buffers. You may, of course, convert your strings into buffers with `new Buffer`.
 
-new Rijndael(key, [encoding])
+new Rijndael(key, [options])
 -----------------------------
 
-The constructor creates a Rijndael object bound to a specific key, with methods for encrypting and decrypting. If you don't care for an object bound to a key, use the [encrypt][] and [decrypt][] functions exported by node-rijndael.
+The constructor creates a Rijndael object bound to a specific key, with methods for encrypting and decrypting.
 
-The provided key can be either a `Buffer` or a `string`, and if a string is provided, the encoding parameter will be passed to the `Buffer` constructor.
+The provided key can be either a `Buffer` or a `string`, and if a string is provided, the `encoding` option will be passed to the `Buffer` constructor.
 
-Rijndael.encrypt(plaintext)
+### Options
+
+```
+{
+  "encoding": "binary" // default, specifies the key encoding, if applicable
+  "mode": Rijndael.MCRYPT_MODE_ECB, // default, the block cipher mode
+  "iv": null // default, the initialization vector (uses encoding if a string)
+}
+```
+
+rijndael.encrypt(plaintext, [input_encoding, [output_encoding]])
 ---------------------------
 
 Encrypt the provided `plaintext` with the bound key, and return the encrypted `ciphertext`. `plaintext` must be a `Buffer`, and `encrypt` will return a `Buffer`.
 
-Rijndael.decrypt(ciphertext)
+May throw an error if unsupported options provided. Most of the checking should happen in the constructor.
+
+rijndael.decrypt(ciphertext, [input_encoding, [output_encoding]])
 ---------------------------
 
 Decrypt the provided `ciphertext` with the bound key, and return the decrypted `plaintext`. `ciphertext` must be a `Buffer`, and `decrypt` will return a `Buffer`.
 
-rijndael.encrypt(plaintext, key)
---------------------------------
-
-Encrypt the provided `plaintext` with the provided `key`, and return the encrypted `ciphertext`. All variables involved must be instances of `Buffer`.
-
-rijndael.decrypt(ciphertext, key)
---------------------------------
-
-Encrypt the provided `ciphertext` with the provided `key`, and return the encrypted `plaintext`. All variables involved must be instances of `Buffer`.
+May throw an error if unsupported options provided. Most of the checking should happen in the constructor.
 
 TODO
 ====
