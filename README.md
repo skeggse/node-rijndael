@@ -65,6 +65,11 @@ rijndael.decrypt(ciphertext, key)
 
 Encrypt the provided `ciphertext` with the provided `key`, and return the encrypted `plaintext`. All variables involved must be instances of `Buffer`.
 
+TODO
+====
+
+A bit more functionality now, needs tests.
+
 Unlicense / Public Domain
 =========================
 
