@@ -30,7 +30,7 @@ var Rijndael = function(key, options) {
   if (typeof options.mode !== 'string')
     throw new TypeError('block mode must be a string');
 
-  if (option.mode !== 'ecb' && !options.iv)
+  if (options.mode !== 'ecb' && !options.iv)
     console.warn('attempt to use empty iv, not recommended');
 
   options.mode = options.mode.toLowerCase();
