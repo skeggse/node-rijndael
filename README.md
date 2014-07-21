@@ -30,7 +30,7 @@ $ npm install node-rijndael
 ----------
 
 ```sh
-$ git clone https://github.com/skeggse/double-cycle.git
+$ git clone https://github.com/skeggse/node-rijndael.git
 ```
 
 API
