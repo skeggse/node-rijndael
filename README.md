@@ -15,6 +15,8 @@ You _will_ need a development version of libmcrypt installed on your system to b
 $ [sudo] apt-get install libmcrypt-dev
 # for red hat derivatives
 $ [sudo] yum install libmcrypt-devel
+# for arch
+$ [sudo] pacman -S libmcrypt
 ```
 
 <small>If you know how to package an external library with a Node Addon, consider submitting a [pull request][pr].</small>
