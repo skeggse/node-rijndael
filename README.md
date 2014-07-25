@@ -38,7 +38,7 @@ $ git clone https://github.com/skeggse/node-rijndael.git
 API
 ===
 
-For simplicity's sake, `node-rijndael` only operates on Buffers. You may, of course, convert your strings into buffers with `new Buffer`.
+As of `0.1.0`, `node-rijndael` will coerce strings into buffers. As of `0.2.0`, `node-rijndael` pads keys and allows key lengths of 16, 24 and 32 bytes.
 
 new Rijndael(key, [options])
 -----------------------------
@@ -60,14 +60,14 @@ The provided key can be either a `Buffer` or a `string`, and if a string is prov
 Rijndael#encrypt(plaintext, [input_encoding, [output_encoding]])
 ---------------------------
 
-Encrypt the provided `plaintext` with the bound key, and return the encrypted `ciphertext`. `plaintext` must be a `Buffer`, and `encrypt` will return a `Buffer`.
+Encrypt the provided `plaintext` with the bound key, and return the encrypted `ciphertext`. `encrypt` will return a `Buffer` by default.
 
 May throw an error if unsupported options provided. Most of the checking should happen in the constructor.
 
 Rijndael#decrypt(ciphertext, [input_encoding, [output_encoding]])
 ---------------------------
 
-Decrypt the provided `ciphertext` with the bound key, and return the decrypted `plaintext`. `ciphertext` must be a `Buffer`, and `decrypt` will return a `Buffer`.
+Decrypt the provided `ciphertext` with the bound key, and return the decrypted `plaintext`. `decrypt` will return a `Buffer` by default.
 
 May throw an error if unsupported options provided. Most of the checking should happen in the constructor.
 
