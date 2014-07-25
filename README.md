@@ -57,14 +57,14 @@ The provided key can be either a `Buffer` or a `string`, and if a string is prov
 }
 ```
 
-rijndael.encrypt(plaintext, [input_encoding, [output_encoding]])
+Rijndael#encrypt(plaintext, [input_encoding, [output_encoding]])
 ---------------------------
 
 Encrypt the provided `plaintext` with the bound key, and return the encrypted `ciphertext`. `plaintext` must be a `Buffer`, and `encrypt` will return a `Buffer`.
 
 May throw an error if unsupported options provided. Most of the checking should happen in the constructor.
 
-rijndael.decrypt(ciphertext, [input_encoding, [output_encoding]])
+Rijndael#decrypt(ciphertext, [input_encoding, [output_encoding]])
 ---------------------------
 
 Decrypt the provided `ciphertext` with the bound key, and return the decrypted `plaintext`. `ciphertext` must be a `Buffer`, and `decrypt` will return a `Buffer`.

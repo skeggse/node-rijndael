@@ -59,7 +59,7 @@ Handle<Value> Rijndael(const Arguments& args) {
   text_len = Buffer::Length(args[0]);
   key_len = Buffer::Length(args[1]);
 
-  if (key_len != 32) {
+  if (key_len != 16 && key_len != 24 && key_len != 32) {
     ThrowException(Exception::Error(String::New("key length does not match algorithm parameters")));
     return scope.Close(Undefined());
   }
