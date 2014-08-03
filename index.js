@@ -1,5 +1,8 @@
 var lib = require('./build/Release/rijndael');
 
+var allowedEncoding = ['ascii', 'base64', 'binary', 'hex'];
+var validModes = ['ecb', 'cbc', 'cfb', 'ofb', 'nofb', 'stream'];
+
 /**
  * Pad the key out to 16, 24 or 32 bytes, making sure it's a buffer.
  *
@@ -8,10 +11,6 @@ var lib = require('./build/Release/rijndael');
  */
 function padkey(key, encoding) {
   var isString = typeof key === 'string';
-  if (isString && (encoding === 'utf-8' || encoding === 'utf8')) {
-    // utf-8 encoding has weird lengths sometimes? :(
-    key = new Buffer(key, encoding);
-  }
   var l = isString ? Buffer.byteLength(key, encoding) : key.length;
   if (l > 32) {
     throw new Error('key length does not match algorithm parameters');
@@ -51,6 +50,9 @@ var Rijndael = function(key, options) {
   options.mode || (options.mode = 'ecb');
   options.encoding || (options.encoding = 'binary');
 
+  if (allowedEncoding.indexOf(options.encoding) === -1)
+    throw new TypeError(options.encoding + ' is not a permitted encoding');
+
   key = padkey(key, options.encoding);
 
   if (typeof options.iv === 'string')
@@ -62,10 +64,13 @@ var Rijndael = function(key, options) {
   if (typeof options.mode !== 'string')
     throw new TypeError('block mode must be a string');
 
+  options.mode = options.mode.toLowerCase();
+
+  if (validModes.indexOf(options.mode) === -1)
+    throw new TypeError(options.mode + ' is not a valid block mode');
+
   if (options.mode !== 'ecb' && !options.iv)
     console.warn('attempt to use empty iv, not recommended');
-
-  options.mode = options.mode.toLowerCase();
 
   this._key = key;
   this._iv = options.iv || null;
