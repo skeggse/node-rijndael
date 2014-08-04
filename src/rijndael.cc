@@ -1,4 +1,5 @@
 #include <node.h>
+#include <nan.h>
 #include <v8.h>
 #include <node_buffer.h>
 
@@ -10,8 +11,8 @@
 using namespace v8;
 using namespace node;
 
-Handle<Value> Rijndael(const Arguments& args) {
-  HandleScope scope;
+NAN_METHOD(rijndael) {
+  NanScope();
 
   MCRYPT rijndael_module;
 
@@ -41,15 +42,15 @@ Handle<Value> Rijndael(const Arguments& args) {
   }
 
   if (err == 1) {
-    ThrowException(Exception::TypeError(String::New(error_message)));
-    return scope.Close(Undefined());
+    NanThrowTypeError(error_message);
+    NanReturnUndefined();
   }
 
   if (Buffer::HasInstance(args[4])) {
     iv = Buffer::Data(args[4]);
   }
 
-  v8::String::Utf8Value modeStr(args[3]->ToString());
+  String::Utf8Value modeStr(args[3]->ToString());
 
   text = Buffer::Data(args[0]);
   key = Buffer::Data(args[1]);
@@ -60,21 +61,21 @@ Handle<Value> Rijndael(const Arguments& args) {
   key_len = Buffer::Length(args[1]);
 
   if (key_len != 16 && key_len != 24 && key_len != 32) {
-    ThrowException(Exception::Error(String::New("key length does not match algorithm parameters")));
-    return scope.Close(Undefined());
+    NanThrowError("key length does not match algorithm parameters");
+    NanReturnUndefined();
   }
 
   rijndael_module = mcrypt_module_open((char*) "rijndael-256", NULL, mode, NULL);
   if (rijndael_module == MCRYPT_FAILED) {
-    ThrowException(Exception::Error(String::New("rijndael mcrypt module failed to load")));
-    return scope.Close(Undefined());
+    NanThrowError("rijndael mcrypt module failed to load");
+    NanReturnUndefined();
   }
 
   err = mcrypt_generic_init(rijndael_module, (void*) key, key_len, iv);
   if (err < 0) {
     mcrypt_module_close(rijndael_module);
-    ThrowException(Exception::Error(String::New(mcrypt_strerror(err))));
-    return scope.Close(Undefined());
+    NanThrowError(mcrypt_strerror(err));
+    NanReturnUndefined();
   }
 
   data_size = (((text_len - 1) / 32) + 1) * 32;
@@ -90,18 +91,19 @@ Handle<Value> Rijndael(const Arguments& args) {
   if (err < 0) {
     mcrypt_module_close(rijndael_module);
     free(data);
-    ThrowException(Exception::Error(String::New(mcrypt_strerror(err))));
-    return scope.Close(Undefined());
+    NanThrowError(mcrypt_strerror(err));
+    NanReturnUndefined();
   }
 
-  Buffer& buffer = *Buffer::New((char*) data, data_size);
+  Local<Object> buffer = NanNewBufferHandle((char*) data, data_size);
   mcrypt_module_close(rijndael_module);
   free(data);
-  return scope.Close(buffer.handle_);
+  NanReturnValue(buffer);
 }
 
 void init(Handle<Object> exports) {
-  exports->Set(String::NewSymbol("rijndael"), FunctionTemplate::New(Rijndael)->GetFunction());
+  exports->Set(NanNew<String>("rijndael"),
+    NanNew<FunctionTemplate>(rijndael)->GetFunction());
 }
 
 NODE_MODULE(rijndael, init)

@@ -29,7 +29,6 @@ function padkey(key, encoding) {
   return isString ? new Buffer(key, encoding) : key;
 }
 
-
 /**
  * A bound Rijndael object with an option for block cipher mode.
  *
@@ -125,6 +124,6 @@ Rijndael.MCRYPT_MODE_OFB = Rijndael.MODE_OFB = 'ofb';
 Rijndael.MCRYPT_MODE_NOFB = Rijndael.MODE_NOFB = 'nofb';
 Rijndael.MCRYPT_MODE_STREAM = Rijndael.MODE_STREAM = 'stream';
 
-Rijndael.version = "0.2.0";
+Rijndael.version = "0.2.1";
 
 module.exports = Rijndael;
