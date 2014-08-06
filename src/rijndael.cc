@@ -11,7 +11,7 @@
 using namespace v8;
 using namespace node;
 
-NAN_METHOD(rijndael) {
+NAN_METHOD(Rijndael) {
   NanScope();
 
   MCRYPT rijndael_module;
@@ -103,7 +103,7 @@ NAN_METHOD(rijndael) {
 
 void init(Handle<Object> exports) {
   exports->Set(NanNew<String>("rijndael"),
-    NanNew<FunctionTemplate>(rijndael)->GetFunction());
+    NanNew<FunctionTemplate>(Rijndael)->GetFunction());
 }
 
 NODE_MODULE(rijndael, init)
