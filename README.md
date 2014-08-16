@@ -19,6 +19,8 @@ $ [sudo] yum install libmcrypt-devel
 $ [sudo] pacman -S libmcrypt
 ```
 
+<small>N.B. if installing `node-rijndael` fails with an error regarding a `"libmcrypt.h"` header, this is why.</small>
+
 <small>If you know how to package an external library with a Node Addon, consider submitting a [pull request][pr].</small>
 
 [npm][]
