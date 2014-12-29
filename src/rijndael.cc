@@ -94,6 +94,8 @@ NAN_METHOD(Rijndael) {
     NanThrowError(mcrypt_strerror(err));
     NanReturnUndefined();
   }
+  
+  mcrypt_generic_deinit(rijndael_module);
 
   Local<Object> buffer = NanNewBufferHandle((char*) data, data_size);
   mcrypt_module_close(rijndael_module);
