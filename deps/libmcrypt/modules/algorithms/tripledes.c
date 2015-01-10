@@ -745,7 +745,7 @@ static void spinit(TRIPLEDES_KEY * key, int pos)
 
 #ifdef	DEBUG
 			printf("sp[%d][%2d] = %08lx\n", s, i,
-			       sp[pos][s][i]);
+			       key->sp[pos][s][i]);
 #endif
 		}
 	}

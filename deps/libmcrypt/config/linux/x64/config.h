@@ -138,7 +138,7 @@
 #define SIZEOF_UNSIGNED_INT 4
 
 /* The size of a `unsigned long int', as computed by sizeof. */
-#define SIZEOF_UNSIGNED_LONG_INT 4
+#define SIZEOF_UNSIGNED_LONG_INT 8
 
 /* The size of a `unsigned short int', as computed by sizeof. */
 #define SIZEOF_UNSIGNED_SHORT_INT 2

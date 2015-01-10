@@ -1,2 +1,4 @@
 - Documentation- documentation-...
 - Find test vectors for PANAMA and WAKE and check the implementation.
+- Bring over the mcrypt_symb.c generation code from the old Makefile.am.
+- Auto-update version in include/../mcrypt.h.
