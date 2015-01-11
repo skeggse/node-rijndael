@@ -8,20 +8,7 @@ This module enables interfacing between PHP and Node.js, especially where third-
 Installation
 ============
 
-You _will_ need a development version of libmcrypt installed on your system to build node-rijndael.
-
-```sh
-# for debian derivatives
-$ [sudo] apt-get install libmcrypt-dev
-# for red hat derivatives
-$ [sudo] yum install libmcrypt-devel
-# for arch
-$ [sudo] pacman -S libmcrypt
-```
-
-<small>N.B. if installing `node-rijndael` fails with an error regarding a `"libmcrypt.h"` header, this is why.</small>
-
-<small>If you know how to package an external library with a Node Addon, consider submitting a [pull request][pr].</small>
+As of version `0.3.0`, libmcrypt is packaged with node-rijndael: you no longer need to install the development version of libmcrypt.
 
 [npm][]
 -------
@@ -35,6 +22,8 @@ $ npm install node-rijndael
 
 ```sh
 $ git clone https://github.com/skeggse/node-rijndael.git
+$ cd node-rijndael
+$ node-gyp
 ```
 
 API
@@ -78,20 +67,6 @@ TODO
 
 A bit more functionality now, needs tests.
 
-Unlicense / Public Domain
-=========================
-
-> This is free and unencumbered software released into the public domain.
-
-> Anyone is free to copy, modify, publish, use, compile, sell, or distribute this software, either in source code form or as a compiled binary, for any purpose, commercial or non-commercial, and by any means.
-
-> In jurisdictions that recognize copyright laws, the author or authors of this software dedicate any and all copyright interest in the software to the public domain. We make this dedication for the benefit of the public at large and to the detriment of our heirs and successors. We intend this dedication to be an overt act of relinquishment in perpetuity of all present and future rights to this software under copyright law.
-
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-> For more information, please refer to <[http://unlicense.org/](http://unlicense.org/)>
-
-[pr]: https://github.com/skeggse/node-rijndael/pulls
 [encrypt]: https://github.com/skeggse/node-rijndael#rijndaelencryptplaintext-key
 [decrypt]: https://github.com/skeggse/node-rijndael#rijndaeldecryptciphertext-key
 [npm]: http://npmjs.org/package/node-rijndael "node-rijndael on npm"
