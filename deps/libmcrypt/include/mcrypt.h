@@ -1,7 +1,6 @@
-#if !defined(__MCRYPT_H)
-#define  __MCRYPT_H
+#ifndef __MCRYPT_H
+#define __MCRYPT_H
 
-#include <mutils/mcrypt.h>
+#include "mutils/mcrypt.h"
 
 #endif
-

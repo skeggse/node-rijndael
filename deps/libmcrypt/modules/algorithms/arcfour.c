@@ -1,9 +1,9 @@
-/* 
+/*
  * Copyright (C) 1998,1999,2000,2001 Nikos Mavroyanopoulos
  *
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Library General Public License as published 
- * by the Free Software Foundation; either version 2 of the License, or 
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Library General Public License as published
+ * by the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -52,14 +52,15 @@ WIN32DLL_DEFINE
 {
 	register int tmp, j, i;
 	byte *state = STATE;
-	int ivindex;
+#ifdef USE_IV
+	int ivindex = 0;
+#endif
 
 	for (i = 0; i < 256; i++)
 		state[i] = i;
 
 	I = 0;
 	J = 0;
-	ivindex = 0;
 
 	for (j = i = 0; i < 256; i++) {
 		j += state[i] + key_data[i % key_len];
@@ -196,7 +197,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 
 	free(keyword);
 	free(key);
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

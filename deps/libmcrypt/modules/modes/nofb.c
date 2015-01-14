@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 1998,1999,2000,2001 Nikos Mavroyanopoulos
- * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Library General Public License as published 
- * by the Free Software Foundation; either version 2 of the License, or 
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Library General Public License as published
+ * by the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -47,11 +47,11 @@ int _init_mcrypt( nOFB_BUFFER* buf, void *key, int lenofkey, void *IV, int size)
     buf->enc_s_register = buf->s_register = NULL;
     buf->s_register_pos = 0;
 
-    buf->blocksize = size;    
+    buf->blocksize = size;
 /* For ofb */
 	buf->enc_s_register=malloc( size);
     if (buf->enc_s_register==NULL) goto freeall;
-    
+
 	buf->s_register=malloc( size);
     if (buf->s_register==NULL) goto freeall;
 
@@ -116,20 +116,20 @@ void xor_stuff( nOFB_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* p
 			_mcrypt_block_encrypt(akey, buf->enc_s_register);
 
 			memcpy(buf->s_register, buf->enc_s_register, blocksize);
-			
+
 			memxor( plain, buf->enc_s_register, blocksize);
 
 		} else {
 			int size = blocksize - buf->s_register_pos;
 
 			memxor( plain, &buf->enc_s_register[buf->s_register_pos],
-				size); 
-		
+				size);
+
 			memcpy(buf->enc_s_register, buf->s_register, blocksize);
 
 			_mcrypt_block_encrypt(akey, buf->enc_s_register);
 
-			memcpy( buf->s_register, 
+			memcpy( buf->s_register,
 				buf->enc_s_register, blocksize);
 
 			memxor( &plain[size], buf->enc_s_register,
@@ -144,7 +144,7 @@ void xor_stuff( nOFB_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* p
 			_mcrypt_block_encrypt(akey, buf->enc_s_register);
 
 			memcpy(buf->s_register, buf->enc_s_register, blocksize);
-			
+
 			memxor( plain, buf->enc_s_register, xor_size);
 
 			buf->s_register_pos = xor_size;
@@ -172,7 +172,7 @@ void xor_stuff( nOFB_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* p
 			buf->s_register_pos = xor_size - min_size;
 
 		}
-	
+
 	}
 	return;
 }
@@ -181,24 +181,21 @@ void xor_stuff( nOFB_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* p
 int _mcrypt( nOFB_BUFFER* buf,void *plaintext, int len, int blocksize, void* akey, void (*func)(void*,void*), void (*func2)(void*,void*))
 {				/* plaintext is n*blocksize bytes (nbit cfb) */
 	byte* plain;
-	int i, j=0;
-	void (*_mcrypt_block_encrypt) (void *, void *);
+	int j;
 	int modlen;
-	
-	_mcrypt_block_encrypt = func;
 
 	plain = plaintext;
 	for (j = 0; j < len / blocksize; j++) {
-		xor_stuff( buf, akey, func, plain, blocksize, blocksize); 
-		
+		xor_stuff( buf, akey, func, plain, blocksize, blocksize);
+
 		plain += blocksize;
 
 	}
 	modlen = len % blocksize;
 	if (modlen > 0) {
-		xor_stuff( buf, akey, func, plain, blocksize, modlen); 
+		xor_stuff( buf, akey, func, plain, blocksize, modlen);
 	}
-	
+
 	return 0;
 }
 

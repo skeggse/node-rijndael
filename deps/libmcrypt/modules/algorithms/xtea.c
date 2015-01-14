@@ -6,7 +6,7 @@
 
 /* $Id: xtea.c,v 1.13 2003/01/19 17:48:27 nmav Exp $ */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -32,7 +32,7 @@
 /**********************************************************
    Input values: 	k[4]	128-bit key
 			v[2]    64-bit plaintext block
-   Output values:	v[2]    64-bit ciphertext block 
+   Output values:	v[2]    64-bit ciphertext block
  **********************************************************/
 
 WIN32DLL_DEFINE
@@ -49,84 +49,45 @@ WIN32DLL_DEFINE
 WIN32DLL_DEFINE void _mcrypt_encrypt(word32 * k, word32 * v)
 {
 #ifdef WORDS_BIGENDIAN
-	word32 y = v[0], z = v[1];
+#define getword(x) (x)
 #else
-	word32 y = byteswap32(v[0]), z = byteswap32(v[1]);
+#define getword(x) byteswap32(x)
 #endif
+	word32 y = getword(v[0]), z = getword(v[1]);
 	word32 limit, sum = 0;
 	int N = ROUNDS;
 
 	limit = DELTA * N;
-#ifdef WORDS_BIGENDIAN
 	while (sum != limit) {
-		y += (((z << 4) ^ (z >> 5)) + z) ^ (sum + k[sum & 3]);
+		y += (((z << 4) ^ (z >> 5)) + z) ^ (sum + getword(k[sum & 3]));
 		sum += DELTA;
-		z += (((y << 4) ^ (y >> 5)) + y) ^ (sum +
-						    k[(sum >> 11) & 3]);
+		z += (((y << 4) ^ (y >> 5)) + y) ^ (sum + getword(k[(sum >> 11) & 3]));
 	}
-#else
-	while (sum != limit) {
-		y += (((z << 4) ^ (z >> 5)) + z) ^ (sum +
-						    byteswap32(k
-							       [sum & 3]));
-		sum += DELTA;
-		z += (((y << 4) ^ (y >> 5)) + y) ^ (sum +
-						    byteswap32(k
-							       [(sum >>
-								 11) &
-								3]));
-	}
-#endif
 
-#ifdef WORDS_BIGENDIAN
-	v[0] = y;
-	v[1] = z;
-#else
-	v[0] = byteswap32(y);
-	v[1] = byteswap32(z);
-#endif
+	v[0] = getword(y);
+	v[1] = getword(z);
 }
 
 WIN32DLL_DEFINE void _mcrypt_decrypt(word32 * k, word32 * v)
 {
 #ifdef WORDS_BIGENDIAN
-	word32 y = v[0], z = v[1];
+#define getword(x) (x)
 #else
-	word32 y = byteswap32(v[0]), z = byteswap32(v[1]);
+#define getword(x) byteswap32(x)
 #endif
-	word32 limit, sum = 0;
+	word32 y = getword(v[0]), z = getword(v[1]);
+	word32 sum = 0;
 	int N = (-ROUNDS);
 
-	limit = DELTA * N;
-#ifdef WORDS_BIGENDIAN
-
 	sum = DELTA * (-N);
 	while (sum) {
-		z -= (((y << 4) ^ (y >> 5)) + y) ^ (sum +
-						    k[(sum >> 11) & 3]);
+		z -= (((y << 4) ^ (y >> 5)) + y) ^ (sum + getword(k[(sum >> 1) & 3]));
 		sum -= DELTA;
-		y -= (((z << 4) ^ (z >> 5)) + z) ^ (sum + k[sum & 3]);
-#else
-	sum = DELTA * (-N);
-	while (sum) {
-		z -= (((y << 4) ^ (y >> 5)) + y) ^ (sum +
-						    byteswap32(k
-							       [(sum >>
-								 11) &
-								3]));
-		sum -= DELTA;
-		y -= (((z << 4) ^ (z >> 5)) + z) ^ (sum +
-						    byteswap32(k
-							       [sum & 3]));
-#endif
+		y -= (((z << 4) ^ (z >> 5)) + z) ^ (sum + getword(k[sum & 3]));
 	}
-#ifdef WORDS_BIGENDIAN
-	v[0] = y;
-	v[1] = z;
-#else
-	v[0] = byteswap32(y);
-	v[1] = byteswap32(z);
-#endif
+	v[0] = getword(y);
+	v[1] = getword(z);
+#undef getword
 }
 
 /*
@@ -217,7 +178,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

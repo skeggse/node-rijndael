@@ -6,7 +6,7 @@
 // dependency
 #include <string.h>
 #include <stdlib.h>
-#include <mcrypt.h>
+#include "../deps/libmcrypt/include/mcrypt.h"
 
 using namespace v8;
 using namespace node;
@@ -17,28 +17,33 @@ NAN_METHOD(Rijndael) {
   MCRYPT rijndael_module;
 
   int err = 0;
-  char* error_message;
+  char *error_message;
   int data_size;
-  void* data;
-  char* text;
-  char* key;
-  char* iv = NULL;
+  void *data;
+  char *text;
+  char *key;
+  char *iv = NULL;
 
   int text_len;
   int key_len;
   bool encrypt;
-  char* mode;
+  char *mode;
 
   if (args.Length() < 1 || !Buffer::HasInstance(args[0])) {
-    err = 1; error_message = (char*) "data must be a buffer";
+    err = 1;
+    error_message = (char*) "data must be a buffer";
   } else if (args.Length() < 2 || !Buffer::HasInstance(args[1])) {
-    err = 1; error_message = (char*) "key must be a buffer";
+    err = 1;
+    error_message = (char*) "key must be a buffer";
   } else if (args.Length() < 3 || !args[2]->IsBoolean()) {
-    err = 1; error_message = (char*) "encryption must be a boolean";
+    err = 1;
+    error_message = (char*) "encryption must be a boolean";
   } else if (args.Length() < 4) {
-    err = 1; error_message = (char*) "block mode must be a string";
+    err = 1;
+    error_message = (char*) "block mode must be a string";
   } else if (args.Length() < 5) {
-    err = 1; error_message = (char*) "iv must be a buffer or null";
+    err = 1;
+    error_message = (char*) "iv must be a buffer or null";
   }
 
   if (err == 1) {
@@ -65,7 +70,7 @@ NAN_METHOD(Rijndael) {
     NanReturnUndefined();
   }
 
-  rijndael_module = mcrypt_module_open((char*) "rijndael-256", NULL, mode, NULL);
+  rijndael_module = mcrypt_module_open("rijndael-256", mode);
   if (rijndael_module == MCRYPT_FAILED) {
     NanThrowError("rijndael mcrypt module failed to load");
     NanReturnUndefined();
@@ -94,7 +99,7 @@ NAN_METHOD(Rijndael) {
     NanThrowError(mcrypt_strerror(err));
     NanReturnUndefined();
   }
-  
+
   mcrypt_generic_deinit(rijndael_module);
 
   Local<Object> buffer = NanNewBufferHandle((char*) data, data_size);

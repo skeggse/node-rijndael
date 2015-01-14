@@ -12,7 +12,7 @@
 /*                                                                      */
 /* Dr Brian Gladman (gladman@seven77.demon.co.uk) 14th January 1999     */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -558,7 +558,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 1998,1999,2000,2001 Nikos Mavroyanopoulos
- * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Library General Public License as published 
- * by the Free Software Foundation; either version 2 of the License, or 
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Library General Public License as published
+ * by the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -42,20 +42,20 @@ typedef struct cbc_buf {
 /* CBC MODE */
 
 
-int _init_mcrypt( CBC_BUFFER* buf,void *key, int lenofkey, void *IV, int size)
+int _init_mcrypt(CBC_BUFFER* buf,void *key, int lenofkey, void *IV, int size)
 {
 /* For cbc */
 	buf->previous_ciphertext =
 	buf->previous_cipher = NULL;
 
 	buf->blocksize = size;
-		
-	buf->previous_ciphertext = malloc( size);
-	buf->previous_cipher = malloc( size);
-	
+
+	buf->previous_ciphertext = malloc(size);
+	buf->previous_cipher = malloc(size);
+
 	if (buf->previous_ciphertext==NULL ||
 		buf->previous_cipher==NULL) goto freeall;
-	
+
 	if (IV!=NULL) {
 		memcpy(buf->previous_ciphertext, IV, size);
 	} else {
@@ -70,17 +70,17 @@ int _init_mcrypt( CBC_BUFFER* buf,void *key, int lenofkey, void *IV, int size)
 		return -1;
 }
 
-int _mcrypt_set_state( CBC_BUFFER* buf, void *IV, int size)
+int _mcrypt_set_state(CBC_BUFFER* buf, void *IV, int size)
 {
 /* For cbc */
 
 	memcpy(buf->previous_ciphertext, IV, size);
 	memcpy(buf->previous_cipher, IV, size);
- 
+
 	return 0;
 }
 
-int _mcrypt_get_state( CBC_BUFFER* buf, void *IV, int *size)
+int _mcrypt_get_state(CBC_BUFFER* buf, void *IV, int *size)
 {
 	if (*size < buf->blocksize) {
 		*size = buf->blocksize;
@@ -88,31 +88,31 @@ int _mcrypt_get_state( CBC_BUFFER* buf, void *IV, int *size)
 	}
 	*size = buf->blocksize;
 
-	memcpy( IV, buf->previous_ciphertext, buf->blocksize);
+	memcpy(IV, buf->previous_ciphertext, buf->blocksize);
 
 	return 0;
 }
 
 
-void _end_mcrypt( CBC_BUFFER* buf) {
+void _end_mcrypt(CBC_BUFFER* buf) {
 	free(buf->previous_ciphertext);
 	free(buf->previous_cipher);
 }
 
-int _mcrypt( CBC_BUFFER* buf, void *plaintext, int len, int blocksize, void* akey, void (*func)(void*,void*), void (*func2)(void*,void*))
+int _mcrypt(CBC_BUFFER* buf, void *plaintext, int len, int blocksize, void* akey, void (*func)(void*,void*), void (*func2)(void*,void*))
 {
 	word32 *fplain = plaintext;
 	word32 *plain;
-	int i, j; 
+	int i, j;
 	void (*_mcrypt_block_encrypt) (void *, void *);
 
 	_mcrypt_block_encrypt = func;
-	
+
 	for (j = 0; j < len / blocksize; j++) {
 
 		plain = &fplain[j * blocksize / sizeof(word32)];
 
-		for (i = 0; i < blocksize / sizeof(word32); i++) {
+		for (i = 0; i < blocksize / (int) sizeof(word32); i++) {
 			plain[i] ^= buf->previous_ciphertext[i];
 		}
 
@@ -127,11 +127,11 @@ int _mcrypt( CBC_BUFFER* buf, void *plaintext, int len, int blocksize, void* ake
 
 
 
-int _mdecrypt( CBC_BUFFER* buf, void *ciphertext, int len, int blocksize,void* akey, void (*func)(void*,void*), void (*func2)(void*,void*))
+int _mdecrypt(CBC_BUFFER* buf, void *ciphertext, int len, int blocksize,void* akey, void (*func)(void*,void*), void (*func2)(void*,void*))
 {
 	word32 *cipher;
 	word32 *fcipher = ciphertext;
-	int i, j; 
+	int i, j;
 	void (*_mcrypt_block_decrypt) (void *, void *);
 
 	_mcrypt_block_decrypt = func2;
@@ -143,7 +143,7 @@ int _mdecrypt( CBC_BUFFER* buf, void *ciphertext, int len, int blocksize,void* a
 		memcpy(buf->previous_cipher, cipher, blocksize);
 
 		_mcrypt_block_decrypt(akey, cipher);
-		for (i = 0; i < blocksize / sizeof(word32); i++) {
+		for (i = 0; i < blocksize / (int) sizeof(word32); i++) {
 			cipher[i] ^= buf->previous_ciphertext[i];
 		}
 
@@ -170,7 +170,7 @@ word32 _mcrypt_mode_version() {
 # ifdef USE_LTDL
 WIN32DLL_DEFINE int main (void)
 {
-       /* empty main function to avoid linker error (see cygwin FAQ) */
+  /* empty main function to avoid linker error (see cygwin FAQ) */
 }
 # endif
 #endif

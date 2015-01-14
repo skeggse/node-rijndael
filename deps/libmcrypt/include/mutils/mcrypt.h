@@ -33,11 +33,9 @@ extern "C" {
 struct CRYPT_STREAM;
 typedef struct CRYPT_STREAM *MCRYPT;
 
-/* generic - high level functions. 
+/* generic - high level functions.
  */
-	MCRYPT mcrypt_module_open(char *algorithm,
-				  char *a_directory, char *mode,
-				  char *m_directory);
+	MCRYPT mcrypt_module_open(const char *algorithm, const char *mode);
 	int mcrypt_module_close(MCRYPT td);
 
 	/* returns 0 if the library has not been compiled with
@@ -47,8 +45,7 @@ typedef struct CRYPT_STREAM *MCRYPT;
 
 /* returns thread descriptor */
 
-	int mcrypt_generic_init(const MCRYPT td, void *key, int lenofkey,
-				void *IV);
+	int mcrypt_generic_init(const MCRYPT td, void *key, int lenofkey, void *IV);
 	int mcrypt_generic_deinit(const MCRYPT td);
 	int mcrypt_generic_end(const MCRYPT td);
 	int mdecrypt_generic(MCRYPT td, void *plaintext, int len);
@@ -56,41 +53,41 @@ typedef struct CRYPT_STREAM *MCRYPT;
 
 /* extra functions */
 
-	int mcrypt_enc_set_state(MCRYPT td, void *st, int size);
-	int mcrypt_enc_get_state(MCRYPT td, void *st, int *size); /* only 
+	int mcrypt_enc_set_state(MCRYPT td, const void *iv, int size);
+	int mcrypt_enc_get_state(MCRYPT td, void *iv, int *size); /* only
 	* for block algorithms and certain modes like cbc
 	* ncfb etc.
 	*/
-	int (mcrypt_enc_self_test) (MCRYPT);
-	int (mcrypt_enc_get_block_size) (MCRYPT);
-	int (mcrypt_enc_get_iv_size) (MCRYPT);
-	int (mcrypt_enc_get_key_size) (MCRYPT);
+	int (mcrypt_enc_self_test)(MCRYPT);
+	int (mcrypt_enc_get_block_size)(MCRYPT);
+	int (mcrypt_enc_get_iv_size)(MCRYPT);
+	int (mcrypt_enc_get_key_size)(MCRYPT);
 
-/* If this is a block algorithm returns 1 
+/* If this is a block algorithm returns 1
  */
-	int (mcrypt_enc_is_block_algorithm) (MCRYPT);
+	int (mcrypt_enc_is_block_algorithm)(MCRYPT);
 
-/* If the mode operates in blocks returns 1 
+/* If the mode operates in blocks returns 1
  */
-	int (mcrypt_enc_is_block_mode) (MCRYPT);
+	int (mcrypt_enc_is_block_mode)(MCRYPT);
 
-/* If the mode is for block algorithms it returns 1 
+/* If the mode is for block algorithms it returns 1
  */
-	int (mcrypt_enc_is_block_algorithm_mode) (MCRYPT td);
+	int (mcrypt_enc_is_block_algorithm_mode)(MCRYPT td);
 	int mcrypt_enc_mode_has_iv(MCRYPT td);
 
 /* Return a const string containing the name of the algorithm/mode
  */
-	char *(mcrypt_enc_get_algorithms_name) (MCRYPT td);
-	char *(mcrypt_enc_get_modes_name) (MCRYPT td);
+	char *(mcrypt_enc_get_algorithms_name)(MCRYPT td);
+	char *(mcrypt_enc_get_modes_name)(MCRYPT td);
 
 	int *mcrypt_enc_get_supported_key_sizes(MCRYPT td, int *len);
 
 
-	char **mcrypt_list_algorithms(char *libdir, int *size);
-	char **mcrypt_list_modes(char *libdir, int *size);
+	char **mcrypt_list_algorithms(int *size);
+	char **mcrypt_list_modes(int *size);
 
-	/* Frees the memory allocated by the mcrypt_list_xxx() functions. 
+	/* Frees the memory allocated by the mcrypt_list_xxx() functions.
 	 */
 	void mcrypt_free_p(char **p, int size);
 	void mcrypt_free(void *ptr);
@@ -101,43 +98,37 @@ typedef struct CRYPT_STREAM *MCRYPT;
 	void mcrypt_perror(int err);
 	const char* mcrypt_strerror(int err);
 
-	/* Self test for the specified algorithm 
+	/* Self test for the specified algorithm
 	 */
-	int mcrypt_module_self_test(char *algorithm, char *a_directory);
+	int mcrypt_module_self_test(const char *algorithm);
 
-	int mcrypt_module_is_block_algorithm(char *algorithm,
-					     char *a_directory);
-	int mcrypt_module_is_block_algorithm_mode(char *mode,
-						  char *m_directory);
-	int mcrypt_module_is_block_mode(char *mode, char *m_directory);
+	int mcrypt_module_is_block_algorithm(const char *algorithm);
+	int mcrypt_module_is_block_algorithm_mode(const char *mode);
+	int mcrypt_module_is_block_mode(const char *mode);
 
-	int mcrypt_module_get_algo_key_size(char *algorithm,
-					    char *a_directory);
-	int mcrypt_module_get_algo_block_size(char *algorithm,
-					      char *a_directory);
+	int mcrypt_module_get_algo_key_size(const char *algorithm);
+	int mcrypt_module_get_algo_block_size(const char *algorithm);
 
-	int *mcrypt_module_get_algo_supported_key_sizes(char *algorithm,
-							char *a_directory,
-							int *len);
+	int *mcrypt_module_get_algo_supported_key_sizes(const char *algorithm,
+	    int *len);
 
-	/* Checks the version of the specified module 
+	/* Checks the version of the specified module
 	 */
-	int mcrypt_module_algorithm_version(char *algorithm,
-					    char *a_directory);
-	int mcrypt_module_mode_version(char *mode, char *a_directory);
+	int mcrypt_module_algorithm_version(const char *algorithm);
+	int mcrypt_module_mode_version(const char *mode);
 
 
-	/* for multithreaded applications: 
+	/* for multithreaded applications:
 	 */
-	int mcrypt_mutex_register ( void (*mutex_lock)(void) , 
-			void (*mutex_unlock)(void), 
-			void (*set_error)(const char*), 
-			const char* (*get_error)(void));
+	int mcrypt_mutex_register (void (*mutex_lock)(void),
+	    void (*mutex_unlock)(void),
+	    void (*set_error)(const char*),
+	    const char* (*get_error)(void));
 
 	const char *
 		mcrypt_check_version( const char *);
 
-	/* These definitions exist in order to ease the access to 
+	/* These definitions exist in order to ease the access to
 	 * mcrypt_module_init().
 	 */
 

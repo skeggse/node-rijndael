@@ -17,7 +17,7 @@
 *
 *******************************************************************************/
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -88,7 +88,7 @@ WIN32DLL_DEFINE
 	unsigned int i, j;
 	unsigned char ka[SAFER_BLOCK_LEN + 1];
 	unsigned char kb[SAFER_BLOCK_LEN + 1];
-	int nof_rounds = SAFER_SK64_DEFAULT_NOF_ROUNDS;
+	unsigned int nof_rounds = SAFER_SK64_DEFAULT_NOF_ROUNDS;
 	int strengthened = 1;
 	unsigned char *userkey_1 = &userkey[0];
 	unsigned char *userkey_2 = &userkey[8];
@@ -374,7 +374,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

@@ -9,7 +9,7 @@
  *      Changed to fit in mcrypt by nmav@hellug.gr
  */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -35,7 +35,7 @@
 
 /* it needs to be linked against libufc or libcrypt */
 /* it no longer needs that. It just needs the password to be
- * transformed by unix crypt() or the mhash SCRYPT 
+ * transformed by unix crypt() or the mhash SCRYPT
  */
 
 WIN32DLL_DEFINE
@@ -266,11 +266,11 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_set_key(key, (void *) keyword, _mcrypt_get_key_size(),
 			NULL, 0);
 	free(keyword);
-	
+
 	_mcrypt_decrypt(key, (void *) ciphertext, blocksize);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

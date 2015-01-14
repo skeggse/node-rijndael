@@ -39,10 +39,7 @@
     ],
     'defines': [
       'PIC',
-      'HAVE_CONFIG_H',
-      # this only works because we passed the --disable-dynamic-loading option
-      # to ./configure to generate the appropriate config.h files
-      'LIBDIR="/"'
+      'HAVE_CONFIG_H'
     ]
   },
 
@@ -91,6 +88,13 @@
         'lib/win32_comp.c',
         'lib/mcrypt_threads.c',
         'lib/mcrypt_symb.c'
+      ],
+      'conditions': [
+        ['OS=="linux"', {
+          'cflags': [
+            '-Wall', '-std=c99', '-g'
+          ]
+        }]
       ]
     },
 
@@ -100,6 +104,13 @@
       'dependencies': ['mcrypt'],
       'sources': [
         'src/aes_test.c'
+      ],
+      'conditions': [
+        ['OS=="linux"', {
+          'cflags': [
+            '-Wall', '-std=c99', '-g'
+          ]
+        }]
       ]
     },
 
@@ -109,6 +120,13 @@
       'dependencies': ['mcrypt'],
       'sources': [
         'src/cipher_test.c'
+      ],
+      'conditions': [
+        ['OS=="linux"', {
+          'cflags': [
+            '-Wall', '-std=c99', '-g'
+          ]
+        }]
       ]
     }
   ]

@@ -22,7 +22,7 @@
  * This code is placed in the public domain.
  */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -195,8 +195,8 @@ WIN32DLL_DEFINE void _mcrypt_encrypt(word32 const key[8], word32 * in)
 {
 	register word32 n1, n2;	/* As named in the GOST */
 
-/* Added to make it compatible with bigendian machines 
- * --nikos 
+/* Added to make it compatible with bigendian machines
+ * --nikos
  */
 
 #ifndef WORDS_BIGENDIAN
@@ -400,7 +400,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

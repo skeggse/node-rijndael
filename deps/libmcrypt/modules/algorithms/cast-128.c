@@ -9,7 +9,7 @@
 
 /* Adapted to the pike cryptographic toolkit by Niels Möller */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -38,13 +38,16 @@
 #include "cast-128_sboxes.h"
 
 /* Macros to access 8-bit bytes out of a 32-bit word */
-#define U8a(x) ( (u8) (x>>24) )
-#define U8b(x) ( (u8) ((x>>16)&255) )
-#define U8c(x) ( (u8) ((x>>8)&255) )
-#define U8d(x) ( (u8) ((x)&255) )
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+static inline u8 U8a(u32 x) {return (u8) (x >> 24);}
+static inline u8 U8b(u32 x) {return (u8) ((x >> 16) & 0xff);}
+static inline u8 U8c(u32 x) {return (u8) ((x >> 8) & 0xff);}
+static inline u8 U8d(u32 x) {return (u8) (x & 0xff);}
+#pragma GCC diagnostic pop
 
 /* Circular left shift */
-#define ROL(x, n) ( ((x)<<(n)) | ((x)>>(32-(n))) )
+#define ROL(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
 
 /* CAST-128 uses three different round functions */
 #define F1(l, r, i) \
@@ -151,11 +154,13 @@ WIN32DLL_DEFINE void _mcrypt_decrypt(CAST_KEY * key, u8 * block)
 }
 
 
-/***** Key Schedual *****/
+/***** Key Schedule *****/
 
 WIN32DLL_DEFINE
     int _mcrypt_set_key(CAST_KEY * key, u8 * rawkey, unsigned keybytes)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 	u32 t[4], z[4], x[4];
 	unsigned i;
 
@@ -290,6 +295,7 @@ WIN32DLL_DEFINE
 			key->xkey[i + 3] &= 31;
 		}
 	}
+#pragma GCC diagnostic pop
 	/* Wipe clean */
 	for (i = 0; i < 4; i++) {
 		t[i] = x[i] = z[i] = 0;
@@ -377,7 +383,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

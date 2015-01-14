@@ -6,7 +6,14 @@
       'dependencies': [
         'deps/libmcrypt/libmcrypt.gyp:mcrypt'
       ],
-      'include_dirs': ['<!(node -e "require(\'nan\')")']
+      'include_dirs': ['<!(node -e "require(\'nan\')")'],
+      'conditions': [
+        ['OS=="linux"', {
+          'cflags': [
+            '-Wall'
+          ]
+        }]
+      ]
     }
   ]
 }

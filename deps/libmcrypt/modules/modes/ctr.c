@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2002 Nikos Mavroyanopoulos
- * 
- * This library is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU Library General Public License as published 
- * by the Free Software Foundation; either version 2 of the License, or 
+ *
+ * This library is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Library General Public License as published
+ * by the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -68,7 +68,7 @@ register int i, y=0;
 int _init_mcrypt( CTR_BUFFER* buf, void *key, int lenofkey, void *IV, int size)
 {
     buf->c_counter = buf->enc_counter = NULL;
-    
+
 /* For ctr */
     buf->c_counter_pos = 0;
     buf->blocksize = size;
@@ -78,7 +78,7 @@ int _init_mcrypt( CTR_BUFFER* buf, void *key, int lenofkey, void *IV, int size)
 
 	buf->enc_counter=calloc( 1, size);
     if (buf->enc_counter==NULL) goto freeall;
-    
+
     if (IV!=NULL) {
 	memcpy(buf->enc_counter, IV, size);
 	memcpy(buf->c_counter, IV, size);
@@ -123,7 +123,7 @@ void _end_mcrypt( CTR_BUFFER* buf) {
 }
 
 inline static
-void xor_stuff( CTR_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* plain,  int blocksize, int xor_size) 
+void xor_stuff( CTR_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* plain,  int blocksize, int xor_size)
 {
 	void (*_mcrypt_block_encrypt) (void *, void *);
 
@@ -145,7 +145,7 @@ void xor_stuff( CTR_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* pl
 
 			memxor( plain, &buf->enc_counter[buf->c_counter_pos],
 				size);
-		
+
 			increase_counter( buf->c_counter, blocksize);
 
 			memcpy( buf->enc_counter, buf->c_counter, blocksize);
@@ -169,7 +169,7 @@ void xor_stuff( CTR_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* pl
 			int min_size =  size < xor_size ? size: xor_size;
 
 			memxor( plain, &buf->enc_counter[buf->c_counter_pos],
-				min_size); 
+				min_size);
 
 			buf->c_counter_pos += min_size;
 
@@ -187,7 +187,7 @@ void xor_stuff( CTR_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* pl
 			buf->c_counter_pos = xor_size - min_size;
 
 		}
-	
+
 	}
 	return;
 }
@@ -195,8 +195,7 @@ void xor_stuff( CTR_BUFFER *buf, void* akey, void (*func)(void*,void*), byte* pl
 int _mcrypt( CTR_BUFFER* buf,void *plaintext, int len, int blocksize, void* akey, void (*func)(void*,void*), void (*func2)(void*,void*))
 {				/* plaintext can be any size */
 	byte *plain;
-	word32 *fplain = plaintext;
-	int i, j=0;
+	int j = 0;
 	int modlen;
 
 	plain = plaintext;
@@ -219,7 +218,7 @@ int _mcrypt( CTR_BUFFER* buf,void *plaintext, int len, int blocksize, void* akey
 		xor_stuff( buf, akey, func, plain, blocksize, modlen);
 
 	}
-	
+
 	return 0;
 }
 
@@ -244,7 +243,7 @@ word32 _mcrypt_mode_version() {
 # ifdef USE_LTDL
 WIN32DLL_DEFINE int main (void)
 {
-       /* empty main function to avoid linker error (see cygwin FAQ) */
+	/* empty main function to avoid linker error (see cygwin FAQ) */
 }
 # endif
 #endif

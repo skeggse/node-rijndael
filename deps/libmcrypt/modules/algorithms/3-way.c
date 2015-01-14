@@ -5,7 +5,7 @@
 * found in ftp://ftp.funet.fi/pub/crypt/                             *
 \********************************************************************/
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -69,7 +69,7 @@ void mu(word32 * a)
 	a[2] = b[2];
 }
 
-void gamma(word32 * a)
+void gamma_(word32 * a)
 {				/* the nonlinear step */
 	word32 b[3];
 
@@ -130,7 +130,7 @@ void rho(word32 * a)
 {				/* the round function       */
 	theta(a);
 	pi_1(a);
-	gamma(a);
+	gamma_(a);
 	pi_2(a);
 }
 
@@ -328,7 +328,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

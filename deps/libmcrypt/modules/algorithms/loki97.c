@@ -14,7 +14,7 @@
 
 /* $Id: loki97.c,v 1.14 2003/01/19 17:48:27 nmav Exp $ */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -107,9 +107,9 @@ word32 init_done = 0;
 
 word32 ff_mult(word32 a, word32 b, word32 tpow, word32 mpol)
 {
-	word32 r, s, m;
+	word32 s, m;
 
-	r = s = 0;
+	s = 0;
 	m = (1 << tpow);
 
 	while (b) {
@@ -164,7 +164,7 @@ void f_fun(word32 res[2], const word32 in[2], const word32 key[2])
 	word32 i, tt[2], pp[2];
 
 /*    tt[0] = in[0] & ~key[0] | in[1] & key[0];
- *    tt[1] = in[1] & ~key[0] | in[0] & key[0]; 
+ *    tt[1] = in[1] & ~key[0] | in[0] & key[0];
  */
 	tt[0] = (in[0] & ~key[0]) | (in[1] & key[0]);
 	tt[1] = (in[1] & ~key[0]) | (in[0] & key[0]);
@@ -443,7 +443,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 
 	_mcrypt_set_key(key, (void *) keyword, _mcrypt_get_key_size());
 	free(keyword);
-	
+
 	_mcrypt_encrypt(key, (void *) ciphertext);
 
 	for (j = 0; j < blocksize; j++) {
@@ -461,7 +461,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

@@ -1,9 +1,9 @@
-/* The blowfish algorithm 
- * As described in the Schneier's book. Minor changes only 
+/* The blowfish algorithm
+ * As described in the Schneier's book. Minor changes only
  * Changed to conform to the "new" blowfish posted in 30 Oct 1994
  */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -564,7 +564,7 @@ static short initialize_blowfish(blf_ctx * c, byte key[], short keybytes)
 	return 0;
 }
 
-WIN32DLL_DEFINE int _mcrypt_set_key(blf_ctx * c, char *k, int len)
+WIN32DLL_DEFINE int _mcrypt_set_key(blf_ctx * c, unsigned char *k, int len)
 {
 	initialize_blowfish(c, k, len);
 	return 0;
@@ -643,7 +643,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+	if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

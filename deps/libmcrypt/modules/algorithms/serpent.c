@@ -1,6 +1,6 @@
 /* This is an independent implementation of the encryption algorithm:
  *
- * Serpent by Ross Anderson, Eli Biham and Lars Knudsen 
+ * Serpent by Ross Anderson, Eli Biham and Lars Knudsen
  *
  * which is a candidate algorithm in the Advanced Encryption Standard
  * programme of the US National Institute of Standards and Technology
@@ -13,7 +13,7 @@
  * Dr Brian Gladman (gladman@seven77.demon.co.uk) 14th January 1999
  */
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -209,7 +209,7 @@ Mean:          941 cycles =    27.2 mbits/sec
     e = t12 ^ t16
 
 /* 16 term solution that performs less well than 17 term one
-   in my environment (PPro/PII)                                  
+   in my environment (PPro/PII)
 
 #define sb3(a,b,c,d,e,f,g,h)    \
     t1 = a ^ b;     \
@@ -944,7 +944,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+    if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}

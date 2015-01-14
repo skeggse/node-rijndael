@@ -5,34 +5,34 @@
 /* daemen.j@protonworld.com */
 /**************************************************************************+
 *
-*  PANAMA high-performance reference C-code, based on the description in 
-*  the paper 'Fast Hashing and Stream Encryption with PANAMA', presented 
-*  at the Fast Software Encryption Workshop, Paris, 1998, see "Fast 
-*  Software Encryption - 5th International Workshop, FSE'98", edited by 
-*  Serge Vaudenay, LNCS-1372, Springer-Verlag, 1998, pp 60-74, also 
+*  PANAMA high-performance reference C-code, based on the description in
+*  the paper 'Fast Hashing and Stream Encryption with PANAMA', presented
+*  at the Fast Software Encryption Workshop, Paris, 1998, see "Fast
+*  Software Encryption - 5th International Workshop, FSE'98", edited by
+*  Serge Vaudenay, LNCS-1372, Springer-Verlag, 1998, pp 60-74, also
 *  available on-line at http://standard.pictel.com/ftp/research/security
 *
 *  Algorithm design by Joan Daemen and Craig Clapp
 *
-*  panama_x.c  -  Core routines for the Panama stream/hash module, this 
+*  panama_x.c  -  Core routines for the Panama stream/hash module, this
 *                 exportable version excludes an encryption routine.
 *
 *
 *  History:
 *
-*  29-Oct-98  Craig Clapp  Implemention for Dr. Dobbs, Dec. 1998 issue, 
+*  29-Oct-98  Craig Clapp  Implemention for Dr. Dobbs, Dec. 1998 issue,
 *                          based on earlier performance-benchmark code.
 *
 *
-*  Notes:  This code is supplied for the purposes of evaluating the 
-*          performance of the Panama stream/hash module and as a 
-*          reference implementation for generating test vectors for 
+*  Notes:  This code is supplied for the purposes of evaluating the
+*          performance of the Panama stream/hash module and as a
+*          reference implementation for generating test vectors for
 *          compatibility / interoperability verification.
 *
 *
 +**************************************************************************/
 
-/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos 
+/* modified in order to use the libmcrypt API by Nikos Mavroyanopoulos
  * All modifications are placed under the license of libmcrypt.
  */
 
@@ -308,16 +308,16 @@
 /**************************************************************************+
 *
 *  pan_pull() - Performs multiple iterations of the Panama 'Pull' operation.
-*               The input and output arrays are treated as integer multiples 
+*               The input and output arrays are treated as integer multiples
 *               of Panama's natural 256-bit block size.
 *
-*               Input and output arrays may be disjoint or coincident but 
+*               Input and output arrays may be disjoint or coincident but
 *               may not be overlapped if offset from one another.
 *
-*               If 'In' is a NULL pointer then output is taken direct from 
-*               the state machine (used for hash output). If 'Out' is a NULL 
-*               pointer then a dummy 'Pull' is performed. Otherwise 'In' is 
-*               XOR combined with the state machine to produce 'Out' 
+*               If 'In' is a NULL pointer then output is taken direct from
+*               the state machine (used for hash output). If 'Out' is a NULL
+*               pointer then a dummy 'Pull' is performed. Otherwise 'In' is
+*               XOR combined with the state machine to produce 'Out'
 *               (used for stream encryption / decryption).
 *
 +**************************************************************************/
@@ -410,7 +410,7 @@ static void pan_pull(word32 * restrict In,	/* input array                   */
 /**************************************************************************+
 *
 *  pan_push() - Performs multiple iterations of the Panama 'Push' operation.
-*               The input array is treated as an integer multiple of the 
+*               The input array is treated as an integer multiple of the
 *               256-bit blocks which are Panama's natural input size.
 *
 +**************************************************************************/
@@ -484,8 +484,8 @@ static void pan_push(word32 * restrict In,	/* input array                   */
 
 /**************************************************************************+
 *
-*  pan_reset() - Initializes an LFSR buffer and Panama state machine to 
-*                all zeros, ready for a new hash to be accumulated or to 
+*  pan_reset() - Initializes an LFSR buffer and Panama state machine to
+*                all zeros, ready for a new hash to be accumulated or to
 *                re-synchronize or start up an encryption key-stream.
 *
 +**************************************************************************/
@@ -677,7 +677,7 @@ WIN32DLL_DEFINE int _mcrypt_self_test()
 	_mcrypt_decrypt(key, (void *) ciphertext, blocksize);
 	free(key);
 
-	if (strcmp(ciphertext, plaintext) != 0) {
+    if (strcmp((char *) ciphertext, (char *) plaintext) != 0) {
 		printf("failed internally\n");
 		return -1;
 	}
