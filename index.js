@@ -124,6 +124,6 @@ Rijndael.MCRYPT_MODE_OFB = Rijndael.MODE_OFB = 'ofb';
 Rijndael.MCRYPT_MODE_NOFB = Rijndael.MODE_NOFB = 'nofb';
 Rijndael.MCRYPT_MODE_STREAM = Rijndael.MODE_STREAM = 'stream';
 
-Rijndael.version = "0.2.1";
+Rijndael.version = "0.2.2";
 
 module.exports = Rijndael;
