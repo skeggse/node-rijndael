@@ -36,7 +36,7 @@ function padkey(key, encoding) {
  * @param {?options=} options The options hash.
  * @constructor
  */
-var Rijndael = function(key, options) {
+function Rijndael(key, options) {
   if (!(this instanceof Rijndael))
     return new Rijndael(key);
 
@@ -74,7 +74,7 @@ var Rijndael = function(key, options) {
   this._key = key;
   this._iv = options.iv || null;
   this._options = options;
-};
+}
 
 /**
  * Encrypt the provided plaintext with the bound key using the bound block
@@ -125,5 +125,8 @@ Rijndael.MCRYPT_MODE_NOFB = Rijndael.MODE_NOFB = 'nofb';
 Rijndael.MCRYPT_MODE_STREAM = Rijndael.MODE_STREAM = 'stream';
 
 Rijndael.version = "0.2.2";
+
+Rijndael.blockSize = 32;
+Rijndael.blockSizeBits = 256;
 
 module.exports = Rijndael;
