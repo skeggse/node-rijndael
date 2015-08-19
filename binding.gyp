@@ -2,16 +2,15 @@
     "targets": [
         {
             "target_name": "rijndael",
-            "sources": ["src/rijndael.cc"],
-            "link_settings": {
-                "libraries": ["-lmcrypt"]
-            },
-            "include_dirs": ["<!(node -e \"require('nan')\")"],
-            'conditions': [
-                ['OS=="mac"', {
-                    'include_dirs': ['/usr/local/include'],
-                    'library_dirs': ['/usr/local/lib'],
-                }],
+            "dependencies": [
+                "lib/libmcrypt/libmcrypt.gyp:libmcrypt",
+            ],
+            "sources": [
+                "src/rijndael.cc"
+            ],
+            "include_dirs": [
+                "lib/libmcrypt/include/",
+                "<!(node -e \"require('nan')\")"
             ]
         }
     ]

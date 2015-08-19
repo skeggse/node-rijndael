@@ -6,7 +6,7 @@
 // dependency
 #include <string.h>
 #include <stdlib.h>
-#include <mcrypt.h>
+#include "mcrypt.h"
 
 using namespace v8;
 using namespace node;
